@@ -10,6 +10,9 @@ public class Grid {
 	}
 	
 	static private int locate(int x, int y) {
+		if (x>=15 || x<0 || y>=15 || y<0) {
+			return -1;
+		}
 		return x*15+y;
 	}
 	
@@ -22,11 +25,16 @@ public class Grid {
 	}
 	
 	public boolean set_piece(int x, int y, int player) {
-		return this.set_piece(locate(x,y), player);
+		int index = locate(x,y);
+		if (index<0 || index>=225)
+			return false;
+		return this.set_piece(index, player);
 	}
 
 	private boolean set_piece(int index, int player) {
 		// TODO Auto-generated method stub
+		if (index<0 || index>=225)
+			return false;
 		return this.data[index].set_piece(player);
 	}
 	
