@@ -1,18 +1,18 @@
 
 public class Logic {
 	static Grid grid = new Grid();
-	static int currentPlayer = 0;
+	static int lastPlayer = 0;
 	static int lastX=-1;
 	static int lastY=-1;
 	
 	static public boolean deploy(int x, int y, int player) {
-		if (player!=0 || player !=1) {
+		if (player!=-1 && player !=1) {
 			return false;
 		}
 		if (!grid.set_piece(x, y, player)) {
 			return false;
 		} else {
-			currentPlayer=(currentPlayer+1)%2;
+			lastPlayer=player;
 			lastX = x;
 			lastY = y;
 		}
@@ -20,9 +20,7 @@ public class Logic {
 	}
 	
 	static public boolean checkWins() {
-		int lastPlayer = (currentPlayer+1)%2;
-		int put = (lastPlayer == 0)?-1:1;
-		return checkWins(lastX,lastY, put);
+		return checkWins(lastX,lastY, lastPlayer);
 	}
 
 	private static boolean checkWins(int x, int y, int put) {
@@ -65,10 +63,15 @@ public class Logic {
 		
 		while (currentX>=0 && currentX<15 && currentY>=0 && currentY<15 && grid.get_status(currentX, currentY)==put) {
 			count++;
-			currentX = x + x_step;
-			currentY = y + y_step;
+			currentX += x_step;
+			currentY += y_step;
 		}
 		return count;
+	}
+
+	public static String showBoard() {
+		// TODO Auto-generated method stub
+		return grid.toString();
 	}
 
 }
